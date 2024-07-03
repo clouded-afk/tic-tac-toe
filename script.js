@@ -29,12 +29,29 @@ function Gameboard() {
         console.log(boardWithCellValues);
     }
 
+    const checkForWinner = () => {
+        // rows
+
+        // columns
+
+        // diagonals
+
+    }
+
+    const checkForDraw = () => {
+        if (board.every((row)=> row.every((cell) => cell.getValue() !== ""))) {
+            console.log("It's a Draw!")
+        }
+    }
+
     generateBoard();
 
     return {
         getBoard,
         placeMarker,
-        printBoard
+        printBoard,
+        checkForDraw,
+        checkForWinner
     };
 };
 
@@ -84,7 +101,8 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
         console.log(`Placed ${getCurrentPlayer().name}'s marker in row ${row}, column ${column}`);
         board.placeMarker(row, column, getCurrentPlayer().marker);
 
-        // Win conditions
+        board.checkForDraw();
+        board.checkForWinner();
 
         switchPlayerTurn();
         printNewRound();
@@ -100,3 +118,13 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
 
 
 const game = GameController();
+
+game.playRound(0,0)
+game.playRound(2,0)
+game.playRound(1,0)
+game.playRound(0,1)
+game.playRound(2,1)
+game.playRound(1,1)
+game.playRound(0,2)
+game.playRound(2,2)
+game.playRound(1,2)
