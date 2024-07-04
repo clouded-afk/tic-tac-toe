@@ -13,6 +13,18 @@
             <div class="page-title">Tic-Tac-Toe</div>
         </header>
 
+        <div class="name-input-container">
+            <div class="name-input">
+                <label for="player-one">Player One Name:</label>
+                <input type="text" name="player-one" id="player-one">
+            </div>
+            <div class="name-input">
+                <label for="player-two">Player Two Name:</label>
+                <input type="text" name="player-two" id="player-two">
+            </div>
+            <button id="start-button">Start Game!</button>
+        </div>
+
         <div class="game-display">
             <div class="info-container">
                 <div class="info"></div>
@@ -22,18 +34,9 @@
             </div>
         </div>
 
-        <dialog class="name-input-form">
-            <form class="form-container">
-                <div class="form-input">
-                    <label for="player-one">Player One Name:</label>
-                    <input type="text" name="player-one" id="player-one">
-                </div>
-                <div class="form-input">
-                    <label for="player-two">Player Two Name:</label>
-                    <input type="text" name="player-two" id="player-two">
-                </div>
-                <button type="submit" id="submit-button">Start Game!</button>
-            </form>
+        <dialog class="game-result-container">
+            <div class="game-result"></div>
+            <button class="play-again-button">Play Again?</button>
         </dialog>
 
     </div>
