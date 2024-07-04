@@ -30,14 +30,14 @@ function Gameboard() {
     }
 
     const checkForWinner = (player) => {
-        for (let i = 0; i < rows; i++) {
-            if (board[i].every((cell) => cell.getValue() === player)) {
+        for (let row = 0; row < rows; row++) {
+            if (board[row].every((cell) => cell.getValue() === player)) {
                 return true;
             }
           }
 
-        for (let j = 0; j < columns; j++) {
-            if (board.every((row) => row[j].getValue() === player)) {
+        for (let col = 0; col < columns; col++) {
+            if (board.every((row) => row[col].getValue() === player)) {
                 return true;
             }
         }
@@ -148,6 +148,12 @@ const game = GameController();
 // game.playRound(2,2)
 // game.playRound(1,2)
 
+//row
+// game.playRound(1,0)
+// game.playRound(2,0)
+// game.playRound(1,1)
+// game.playRound(0,2)
+// game.playRound(1,2)
 
 //column
 // game.playRound(1,1)
