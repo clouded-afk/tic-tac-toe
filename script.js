@@ -29,20 +29,20 @@ function Gameboard() {
         console.log(boardWithCellValues);
     }
 
-    const checkForWinner = (player) => {
+    const checkForWinner = (marker) => {
         for (let row = 0; row < rows; row++) {
-            if (board[row].every((cell) => cell.getValue() === player)) {
+            if (board[row].every((cell) => cell.getValue() === marker)) {
                 return true;
             }
           }
 
         for (let col = 0; col < columns; col++) {
-            if (board.every((row) => row[col].getValue() === player)) {
+            if (board.every((row) => row[col].getValue() === marker)) {
                 return true;
             }
         }
 
-        if ((board[0][0].getValue() === player && board[1][1].getValue() === player && board[2][2].getValue() === player) || (board[0][2].getValue() === player && board[1][1].getValue() === player && board[2][0].getValue() === player)) {
+        if ((board[0][0].getValue() === marker && board[1][1].getValue() === marker && board[2][2].getValue() === marker) || (board[0][2].getValue() === marker && board[1][1].getValue() === marker && board[2][0].getValue() === marker)) {
             return true;
         }
         return false;
