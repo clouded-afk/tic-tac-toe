@@ -29,19 +29,27 @@ function Gameboard() {
         console.log(boardWithCellValues);
     }
 
-    const checkForWinner = () => {
-        // rows
+    const checkForWinner = (player) => {
+        for (let i = 0; i < rows; i++) {
+            if (board[i].every((cell) => cell.getValue() === player)) {
+                return true;
+            }
+          }
 
-        // columns
+        for (let j = 0; j < columns; j++) {
+            if (board.every((row) => row[j].getValue() === player)) {
+                return true;
+            }
+        }
 
-        // diagonals
-
+        if ((board[0][0].getValue() === player && board[1][1].getValue() === player && board[2][2].getValue() === player) || (board[0][2].getValue() === player && board[1][1].getValue() === player && board[2][0].getValue() === player)) {
+            return true;
+        }
+        return false;
     }
 
     const checkForDraw = () => {
-        if (board.every((row)=> row.every((cell) => cell.getValue() !== ""))) {
-            console.log("It's a Draw!")
-        }
+        return board.every((row)=> row.every((cell) => cell.getValue() !== ""))
     }
 
     generateBoard();
@@ -101,8 +109,17 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
         console.log(`Placed ${getCurrentPlayer().name}'s marker in row ${row}, column ${column}`);
         board.placeMarker(row, column, getCurrentPlayer().marker);
 
-        board.checkForDraw();
-        board.checkForWinner();
+        if (board.checkForWinner(getCurrentPlayer().marker)) {
+            console.log(`${getCurrentPlayer().name} wins!`)
+            board.printBoard()
+            return;
+        }
+
+        if (board.checkForDraw()) {
+            console.log("Draw!")
+            board.printBoard()
+            return;
+        }
 
         switchPlayerTurn();
         printNewRound();
@@ -119,12 +136,40 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
 
 const game = GameController();
 
-game.playRound(0,0)
-game.playRound(2,0)
-game.playRound(1,0)
-game.playRound(0,1)
-game.playRound(2,1)
-game.playRound(1,1)
-game.playRound(0,2)
-game.playRound(2,2)
-game.playRound(1,2)
+
+//draw
+// game.playRound(0,0)
+// game.playRound(2,0)
+// game.playRound(1,0)
+// game.playRound(0,1)
+// game.playRound(2,1)
+// game.playRound(1,1)
+// game.playRound(0,2)
+// game.playRound(2,2)
+// game.playRound(1,2)
+
+
+//column
+// game.playRound(1,1)
+// game.playRound(0,0)
+// game.playRound(2,1)
+// game.playRound(1,0)
+// game.playRound(1,2)
+// game.playRound(2,0)
+
+
+//left diagonal
+// game.playRound(0,0)
+// game.playRound(1,2)
+// game.playRound(1,1)
+// game.playRound(0,1)
+// game.playRound(2,2)
+
+
+//right diagonal
+// game.playRound(0,0)
+// game.playRound(0,2)
+// game.playRound(2,1)
+// game.playRound(1,1)
+// game.playRound(1,0)
+// game.playRound(2,0)
