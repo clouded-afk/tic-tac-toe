@@ -26,7 +26,6 @@ function Gameboard() {
 
     const printBoard = () => {
         const boardWithCellValues =  board.map((row) => row.map((cell) => cell.getValue()));
-        console.log(boardWithCellValues);
     }
 
     const checkForWinner = (marker) => {
@@ -78,70 +77,80 @@ function Cell() {
     };
 };
 
-function GameController(playerOneName = "Player One", playerTwoName = "Player Two") {
+
+const CreatePlayer = (name, marker) => {
+    return {name, marker}
+}
+
+function GameController() {
     const board = Gameboard();
+    let players = []
+    let currentPlayer;
 
-    const players = [
-        {
-            name: playerOneName,
-            marker: "X"
-        },
-        {
-            name: playerTwoName,
-            marker: "O"
-        }
-    ]
-
-    let currentPlayer = players[0];
+    const startGame = (playerOneName, playerTwoName) => {
+        players = [ CreatePlayer(playerOneName, "X"), CreatePlayer(playerTwoName, "O")];
+        currentPlayer = players[0];
+    }
 
     const switchPlayerTurn = () => {
         currentPlayer = currentPlayer === players[0] ? players[1] : players[0];
     };
 
-    const getCurrentPlayer = () => currentPlayer;
-
+    const getCurrentPlayer = () => {
+        return currentPlayer;
+    }
     const printNewRound = () => {
         board.printBoard();
-        console.log(`${getCurrentPlayer().name}'s turn.`);
     };
-
-    const playRound = (row, column) => {
-        console.log(`Placed ${getCurrentPlayer().name}'s marker in row ${row}, column ${column}`);
-        board.placeMarker(row, column, getCurrentPlayer().marker);
-
-        if (board.checkForWinner(getCurrentPlayer().marker)) {
-            console.log(`${getCurrentPlayer().name} wins!`)
-            board.printBoard()
-            return;
-        }
-
-        if (board.checkForDraw()) {
-            console.log("Draw!")
-            board.printBoard()
-            return;
-        }
-
-        switchPlayerTurn();
-        printNewRound();
-    } 
 
     printNewRound();
 
     return {
-        playRound,
-        getCurrentPlayer
+        switchPlayerTurn,
+        getCurrentPlayer,
+        startGame
     };
 };
 
-function eventHandler() {
-    
-}
-
 function DisplayController() {
+    const startButton = document.getElementById("start-button")
+    const playerOneValue = document.getElementById("player-one")
+    const playerTwoValue = document.getElementById("player-two")
+    const gameContainer = document.querySelector(".game")
+    const infoContainer = document.querySelector(".info-container")
+    const info = document.querySelector(".info")
+
+    const displayBoard = () => {
+        gameContainer.style.display = "grid"
+        infoContainer.style.display = "flex"
+        info.style.display = "flex"
+
+        for (let row = 0; row < 3; row++) {
+            for (let col = 0; col < 3; col++) {
+                const boardCell = document.createElement("div");
+                boardCell.classList.add("board-cell")
+                gameContainer.appendChild(boardCell)
+            }
+        }
+
+    }
+
+    startButton.addEventListener("click", () => {
+        const playerOneName = playerOneValue.value || "Player One";
+        const playerTwoName = playerTwoValue.value || "Player Two";
+        const inputContainer = document.querySelector(".name-input-container")
+        GameController().startGame(playerOneName, playerTwoName)
+        inputContainer.remove();
+        displayBoard();
+    })
 
 
 }
 
+const game = GameController();
+
+
+DisplayController();
 
 
 //draw
@@ -163,12 +172,12 @@ function DisplayController() {
 // game.playRound(1,2)
 
 //column
-// game.playRound(1,1)
-// game.playRound(0,0)
-// game.playRound(2,1)
-// game.playRound(1,0)
-// game.playRound(1,2)
-// game.playRound(2,0)
+//game.playRound(1,1)
+//game.playRound(0,0)
+//game.playRound(2,1)
+//game.playRound(1,0)
+//game.playRound(1,2)
+//game.playRound(2,0)
 
 
 //left diagonal
