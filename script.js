@@ -133,8 +133,15 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
     };
 };
 
+function eventHandler() {
+    
+}
 
-const game = GameController();
+function DisplayController() {
+
+
+}
+
 
 
 //draw

@@ -79,6 +79,7 @@ label {
     border: 1px solid #14532d;
     color: white;
     font-weight: bold;
+    cursor: pointer;
 }
 
 #start-button:hover {
@@ -87,4 +88,57 @@ label {
 
 #start-button:active {
     background-color: #15803d;
+}
+
+.game-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.info-container {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    margin-top: 25px;
+    width: 600px;
+    height: 100px;
+    background-color: beige;
+    border-radius: 20px;
+    box-shadow: 2px 2px 2px 2px #a3a3a3;
+}
+
+.info {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.game {
+    display: none;
+    margin: 50px;
+    width: 600px;
+    height: 600px;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 10px;
+    padding: 40px;
+    background-color: beige;
+    border-radius: 20px;
+    box-shadow: 2px 2px 2px 2px #a3a3a3;
+}
+
+.board-cell {
+    background-color: white;
+    box-shadow: 2px 2px 2px 2px #a3a3a3;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 60px;
+    font-weight: bold;
+    cursor: pointer;
 }
