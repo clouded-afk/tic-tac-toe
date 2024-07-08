@@ -131,10 +131,23 @@ function DisplayController() {
         info.style.display = "flex"
 
         gameContainer.textContent = "";
+
         const board = game.getBoard();
         const currentPlayer = game.getCurrentPlayer();    
 
         info.textContent = `${currentPlayer.name}'s turn`
+
+        board.forEach((row, rowIndex) => {
+            row.forEach((cell, columnIndex) => {
+                const boardCell = document.createElement("button");
+                boardCell.classList.add("board-cell");
+                boardCell.dataset.row = rowIndex;
+                boardCell.dataset.column = columnIndex;
+                boardCell.textContent = cell.getValue();
+                
+                gameContainer.appendChild(boardCell);
+            })
+        })
     }
 
     startButton.addEventListener("click", () => {
