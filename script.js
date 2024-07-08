@@ -84,35 +84,40 @@ const CreatePlayer = (name, marker) => {
 
 function GameController() {
     const board = Gameboard();
-    let players = []
+    let players = [];
     let currentPlayer;
 
     const startGame = (playerOneName, playerTwoName) => {
-        players = [ CreatePlayer(playerOneName, "X"), CreatePlayer(playerTwoName, "O")];
+        players = [CreatePlayer(playerOneName, "X"), CreatePlayer(playerTwoName, "O")];
         currentPlayer = players[0];
+        console.log(players)
+        console.log(currentPlayer)
     }
+    
+    currentPlayer = players[0]
 
     const switchPlayerTurn = () => {
         currentPlayer = currentPlayer === players[0] ? players[1] : players[0];
     };
 
-    const getCurrentPlayer = () => {
-        return currentPlayer;
-    }
+    const getCurrentPlayer = () => currentPlayer;
+
     const printNewRound = () => {
         board.printBoard();
     };
 
+    switchPlayerTurn();
     printNewRound();
 
     return {
-        switchPlayerTurn,
         getCurrentPlayer,
-        startGame
+        startGame,
+        getBoard: board.getBoard
     };
 };
 
 function DisplayController() {
+    const game = GameController()
     const startButton = document.getElementById("start-button")
     const playerOneValue = document.getElementById("player-one")
     const playerTwoValue = document.getElementById("player-two")
@@ -120,31 +125,26 @@ function DisplayController() {
     const infoContainer = document.querySelector(".info-container")
     const info = document.querySelector(".info")
 
-    const displayBoard = () => {
+    const updateDisplay = () => {
         gameContainer.style.display = "grid"
         infoContainer.style.display = "flex"
         info.style.display = "flex"
 
-        for (let row = 0; row < 3; row++) {
-            for (let col = 0; col < 3; col++) {
-                const boardCell = document.createElement("div");
-                boardCell.classList.add("board-cell")
-                gameContainer.appendChild(boardCell)
-            }
-        }
+        gameContainer.textContent = "";
+        const board = game.getBoard();
+        const currentPlayer = game.getCurrentPlayer();    
 
+        info.textContent = `${currentPlayer.name}'s turn`
     }
 
     startButton.addEventListener("click", () => {
         const playerOneName = playerOneValue.value || "Player One";
         const playerTwoName = playerTwoValue.value || "Player Two";
         const inputContainer = document.querySelector(".name-input-container")
-        GameController().startGame(playerOneName, playerTwoName)
-        inputContainer.remove();
-        displayBoard();
+        game.startGame(playerOneName, playerTwoName)
+        inputContainer.style.display = 'none';
+        updateDisplay();
     })
-
-
 }
 
 const game = GameController();
