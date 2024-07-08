@@ -134,6 +134,7 @@ label {
 .board-cell {
     background-color: white;
     box-shadow: 2px 2px 2px 2px #a3a3a3;
+    border: 1px solid white;
     border-radius: 20px;
     display: flex;
     justify-content: center;
@@ -141,4 +142,14 @@ label {
     font-size: 60px;
     font-weight: bold;
     cursor: pointer;
+}
+
+.board-cell:hover {
+    background-color: #cbd5e1;
+    border: 1px solid #cbd5e1;
+}
+
+.board-cell:active {
+    background-color: #e2e8f0;
+    border: 1px solid #e2e8f0;
 }
