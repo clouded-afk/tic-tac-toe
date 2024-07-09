@@ -50,6 +50,7 @@ function Gameboard() {
     generateBoard();
 
     return {
+        generateBoard,
         getBoard,
         placeMarker,
         checkForDraw,
@@ -82,13 +83,18 @@ function GameController() {
     let players = [];
     let currentPlayer;
 
+    const info = document.querySelector(".info")
+
     const startGame = (playerOneName, playerTwoName) => {
         players = [CreatePlayer(playerOneName, "X"), CreatePlayer(playerTwoName, "O")];
         currentPlayer = players[0];
+        info.textContent = `${currentPlayer.name}'s turn`
     }
     
     const switchPlayerTurn = () => {
+        const info = document.querySelector(".info")
         currentPlayer = currentPlayer === players[0] ? players[1] : players[0];
+        info.textContent = `${currentPlayer.name}'s turn`
     };
 
     const getCurrentPlayer = () => currentPlayer;
@@ -100,8 +106,12 @@ function GameController() {
             } else if (board.checkForDraw()) {
                 DisplayController().displayDraw();
             }
+            switchPlayerTurn();
         }
-        switchPlayerTurn();
+    }
+
+    const resetGameState = () => {
+        board.generateBoard();
     }
 
     return {
@@ -109,6 +119,7 @@ function GameController() {
         playRound,
         startGame,
         getBoard: board.getBoard,
+        resetGameState
     };
 };
 
@@ -122,6 +133,8 @@ function DisplayController() {
     const info = document.querySelector(".info")
     const dialog = document.querySelector("dialog")
     const result = document.querySelector(".game-result")
+    const playAgain = document.querySelector(".play-again-button")
+    const newGame = document.querySelector(".new-game-button")
 
 
     const updateDisplay = () => {
@@ -132,10 +145,7 @@ function DisplayController() {
         gameContainer.textContent = "";
 
         const board = game.getBoard();
-        const currentPlayer = game.getCurrentPlayer();    
-
-        info.textContent = `${currentPlayer.name}'s turn`
-
+        
         board.forEach((row, rowIndex) => {
             row.forEach((cell, columnIndex) => {
                 const boardCell = document.createElement("button");
@@ -160,7 +170,7 @@ function DisplayController() {
     }
 
     const displayWinner = (winner) => {
-        result.textContent = `${winner} wins!`;
+        result.textContent = `${winner} Wins!`;
         dialog.showModal()
     }
 
@@ -168,7 +178,7 @@ function DisplayController() {
         result.textContent = "Draw!";
         dialog.showModal()
     }
-    
+
     gameContainer.addEventListener("click", handleMarkerPlacement);
 
     startButton.addEventListener("click", () => {
@@ -180,6 +190,20 @@ function DisplayController() {
         updateDisplay();
     })
 
+    playAgain.addEventListener("click", () => {
+        const playerOneName = playerOneValue.value || "Player One";
+        const playerTwoName = playerTwoValue.value || "Player Two";
+        gameContainer.textContent = "";
+        game.resetGameState();
+        updateDisplay();
+        game.startGame(playerOneName, playerTwoName);
+        dialog.close()
+    })
+
+    newGame.addEventListener("click", () => {
+        window.location.reload()
+    })
+
     return {
         updateDisplay,
         displayWinner,
@@ -187,52 +211,4 @@ function DisplayController() {
     }
 }
 
-const game = GameController();
-
-
 DisplayController();
-
-
-
-//draw
-// game.playRound(0,0)
-// game.playRound(2,0)
-// game.playRound(1,0)
-// game.playRound(0,1)
-// game.playRound(2,1)
-// game.playRound(1,1)
-// game.playRound(0,2)
-// game.playRound(2,2)
-// game.playRound(1,2)
-
-//row
-// game.playRound(1,0)
-// game.playRound(2,0)
-// game.playRound(1,1)
-// game.playRound(0,2)
-// game.playRound(1,2)
-
-//column
-//game.playRound(1,1)
-//game.playRound(0,0)
-//game.playRound(2,1)
-//game.playRound(1,0)
-//game.playRound(1,2)
-//game.playRound(2,0)
-
-
-//left diagonal
-// game.playRound(0,0)
-// game.playRound(1,2)
-// game.playRound(1,1)
-// game.playRound(0,1)
-// game.playRound(2,2)
-
-
-//right diagonal
-// game.playRound(0,0)
-// game.playRound(0,2)
-// game.playRound(2,1)
-// game.playRound(1,1)
-// game.playRound(1,0)
-// game.playRound(2,0)
