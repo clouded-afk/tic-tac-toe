@@ -24,10 +24,6 @@ function Gameboard() {
         return false;
     }
 
-    const printBoard = () => {
-        const boardWithCellValues =  board.map((row) => row.map((cell) => cell.getValue()));
-    }
-
     const checkForWinner = (marker) => {
         for (let row = 0; row < rows; row++) {
             if (board[row].every((cell) => cell.getValue() === marker)) {
@@ -56,7 +52,6 @@ function Gameboard() {
     return {
         getBoard,
         placeMarker,
-        printBoard,
         checkForDraw,
         checkForWinner
     };
@@ -90,29 +85,30 @@ function GameController() {
     const startGame = (playerOneName, playerTwoName) => {
         players = [CreatePlayer(playerOneName, "X"), CreatePlayer(playerTwoName, "O")];
         currentPlayer = players[0];
-        console.log(players)
-        console.log(currentPlayer)
     }
     
-    currentPlayer = players[0]
-
     const switchPlayerTurn = () => {
         currentPlayer = currentPlayer === players[0] ? players[1] : players[0];
     };
 
     const getCurrentPlayer = () => currentPlayer;
 
-    const printNewRound = () => {
-        board.printBoard();
-    };
-
-    switchPlayerTurn();
-    printNewRound();
+    const playRound = (row, column) => {
+        if (board.placeMarker(row, column, currentPlayer.marker)) {
+            if (board.checkForWinner(currentPlayer.marker)) {
+                DisplayController().displayWinner(currentPlayer.name);
+            } else if (board.checkForDraw()) {
+                DisplayController().displayDraw();
+            }
+        }
+        switchPlayerTurn();
+    }
 
     return {
         getCurrentPlayer,
+        playRound,
         startGame,
-        getBoard: board.getBoard
+        getBoard: board.getBoard,
     };
 };
 
@@ -124,6 +120,9 @@ function DisplayController() {
     const gameContainer = document.querySelector(".game")
     const infoContainer = document.querySelector(".info-container")
     const info = document.querySelector(".info")
+    const dialog = document.querySelector("dialog")
+    const result = document.querySelector(".game-result")
+
 
     const updateDisplay = () => {
         gameContainer.style.display = "grid"
@@ -150,6 +149,28 @@ function DisplayController() {
         })
     }
 
+    const handleMarkerPlacement = (event) => {
+        const target = event.target;
+        if (target.classList.contains("board-cell")) {
+            const row = target.dataset.row;
+            const column = target.dataset.column;
+            game.playRound(row, column)
+            updateDisplay();
+        }
+    }
+
+    const displayWinner = (winner) => {
+        result.textContent = `${winner} wins!`;
+        dialog.showModal()
+    }
+
+    const displayDraw = () => {
+        result.textContent = "Draw!";
+        dialog.showModal()
+    }
+    
+    gameContainer.addEventListener("click", handleMarkerPlacement);
+
     startButton.addEventListener("click", () => {
         const playerOneName = playerOneValue.value || "Player One";
         const playerTwoName = playerTwoValue.value || "Player Two";
@@ -158,12 +179,19 @@ function DisplayController() {
         inputContainer.style.display = 'none';
         updateDisplay();
     })
+
+    return {
+        updateDisplay,
+        displayWinner,
+        displayDraw
+    }
 }
 
 const game = GameController();
 
 
 DisplayController();
+
 
 
 //draw
