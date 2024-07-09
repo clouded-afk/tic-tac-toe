@@ -1,7 +1,6 @@
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
     font-family: "Playwrite DE Grund", sans-serif;
 }
 
@@ -82,11 +81,11 @@ label {
     cursor: pointer;
 }
 
-#start-button:hover {
+#start-button:hover, .play-again-button:hover, .new-game-button:hover {
     background-color: #166534;
 }
 
-#start-button:active {
+#start-button:active, .play-again-button:active, .new-game-button:active {
     background-color: #15803d;
 }
 
@@ -152,4 +151,44 @@ label {
 .board-cell:active {
     background-color: #e2e8f0;
     border: 1px solid #e2e8f0;
+}
+
+dialog {
+    width: 300px;
+    height: 300px;
+    position: absolute;
+    left: 50%;
+    top: 50%; 
+    margin-left: -150px;
+    margin-top: -150px;
+    border-radius: 20px;
+    box-shadow: 2px 2px 2px 2px #a3a3a3;
+    border: none;
+}
+
+.game-result-container{
+    height: 300px;
+    width: 300px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.game-result {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.play-again-button, .new-game-button {
+    margin-top: 30px;
+    width: 150px;
+    padding: 5px;
+    border-radius: 20px;
+    background-color: #14532d;
+    border: 1px solid #14532d;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
 }
