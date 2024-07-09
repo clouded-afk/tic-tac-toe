@@ -148,6 +148,14 @@ label {
     border: 1px solid #cbd5e1;
 }
 
+#X {
+    color: #3b82f6;
+}
+
+#O {
+    color: #f472b6;
+}
+
 dialog {
     width: 300px;
     height: 300px;

@@ -92,7 +92,6 @@ function GameController() {
     }
     
     const switchPlayerTurn = () => {
-        const info = document.querySelector(".info")
         currentPlayer = currentPlayer === players[0] ? players[1] : players[0];
         info.textContent = `${currentPlayer.name}'s turn`
     };
@@ -153,6 +152,12 @@ function DisplayController() {
                 boardCell.dataset.row = rowIndex;
                 boardCell.dataset.column = columnIndex;
                 boardCell.textContent = cell.getValue();
+
+                if (boardCell.textContent === "X") {
+                    boardCell.setAttribute("id", "X")
+                } else if (boardCell.textContent === "O") {
+                    boardCell.setAttribute("id", "O")
+                }
                 
                 gameContainer.appendChild(boardCell);
             })
